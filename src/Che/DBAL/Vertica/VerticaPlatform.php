@@ -157,7 +157,7 @@ class VerticaPlatform extends PostgreSqlPlatform
     {
         $sql = parent::getCreateTableSQL($table, $createFlags);
 
-        $columnComments = [];
+        $columnComments = array();
         foreach ($table->getColumns() as $column) {
             if ($comment = $this->getColumnComment($column)) {
                 $columnComments[$column->getName()] = $comment;
@@ -175,7 +175,7 @@ class VerticaPlatform extends PostgreSqlPlatform
     /**
      * {@inheritDoc}
      */
-    protected function _getCreateTableSQL($tableName, array $columns, array $options = [])
+    protected function _getCreateTableSQL($tableName, array $columns, array $options = array())
     {
         $queryFields = $this->getColumnDeclarationListSQL($columns);
 
@@ -185,8 +185,8 @@ class VerticaPlatform extends PostgreSqlPlatform
         }
 
         $query = 'CREATE TABLE ' . $tableName . ' (' . $queryFields . ')';
-
-        $sql[] = $query;
+        $sql = array($query);
+        
 
         if (isset($options['indexes']) && ! empty($options['indexes'])) {
             /** @var Index $index */
@@ -238,7 +238,7 @@ class VerticaPlatform extends PostgreSqlPlatform
     {
         $sql = parent::getAlterTableSQL($diff);
 
-        $columnComments = [];
+        $columnComments = array();
         /** @var ColumnDiff $columnDiff */
         foreach ($diff->changedColumns as $columnDiff) {
             if ($columnDiff->hasChanged('comment') && $comment = $this->getColumnComment($columnDiff->column)) {
