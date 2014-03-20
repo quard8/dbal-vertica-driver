@@ -21,14 +21,14 @@ class ODBCConnection implements Connection
 {
     const OPTION_EMULATE_MULTIPLE_EXEC = 'emulate_multiple_exec';
 
-    private static $DEFAULT_OPTIONS = [
+    private static $DEFAULT_OPTIONS = array(
         self::OPTION_EMULATE_MULTIPLE_EXEC => false
-    ];
+    );
 
     private $dbh;
     private $options;
 
-    public function __construct($dsn, $user, $password, array $options = [])
+    public function __construct($dsn, $user, $password, array $options = array())
     {
         $this->options = array_merge(self::$DEFAULT_OPTIONS, $options);
         $this->dbh = @odbc_connect($dsn, $user, $password);
@@ -142,9 +142,9 @@ class ODBCConnection implements Connection
 
     public function errorInfo()
     {
-        return [
+        return array(
             'code' => odbc_error($this->dbh),
             'message' => odbc_errormsg($this->dbh)
-        ];
+        );
     }
 }
