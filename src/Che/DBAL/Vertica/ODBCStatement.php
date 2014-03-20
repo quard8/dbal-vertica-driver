@@ -33,7 +33,7 @@ class ODBCStatement implements \Iterator, Statement
     private $key = -1;
     private $current = null;
 
-    public function __construct($dbh, $query, array $options = [])
+    public function __construct($dbh, $query, array $options = array())
     {
         $this->options = $options;
         $this->dbh = $dbh;
@@ -50,8 +50,8 @@ class ODBCStatement implements \Iterator, Statement
     {
         $this->originalQuery = $query;
         $this->query = $query;
-        $this->paramMap = [];
-        $this->params = [];
+        $this->paramMap = array();
+        $this->params = array();
 
         $positions = array_flip(SQLParserUtils::getPlaceholderPositions($query));
         if ($positions) {
@@ -72,7 +72,7 @@ class ODBCStatement implements \Iterator, Statement
 
         // Remap name parameters to positional
         $queryLength = strlen($query);
-        $queryParts = [$query];
+        $queryParts = array($query);
         $i = 0;
         foreach ($positions as $pos => $param) {
             // replace named parameter placeholder with position one
@@ -143,7 +143,7 @@ class ODBCStatement implements \Iterator, Statement
             return false;
         }
         $numFields = odbc_num_fields($this->sth);
-        $row = [];
+        $row = array();
         switch ($fetchMode) {
             case \PDO::FETCH_ASSOC:
                 for ($i = 1; $i <= $numFields; $i++) {
@@ -212,7 +212,7 @@ class ODBCStatement implements \Iterator, Statement
      */
     public function fetchAll($fetchMode = null)
     {
-        $rows = [];
+        $rows = array();
         while ($row = $this->fetch($fetchMode)) {
             $rows[] = $row;
         }
@@ -271,10 +271,10 @@ class ODBCStatement implements \Iterator, Statement
      */
     public function errorInfo()
     {
-        return [
+        return array(
             'code' => odbc_error($this->dbh),
             'message' => odbc_errormsg($this->dbh)
-        ];
+        );
     }
 
     /**
