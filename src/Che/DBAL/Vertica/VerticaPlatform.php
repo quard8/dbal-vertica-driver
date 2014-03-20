@@ -381,7 +381,7 @@ class VerticaPlatform extends PostgreSqlPlatform
      */
     protected function initializeDoctrineTypeMappings()
     {
-        $this->doctrineTypeMapping = [
+        $this->doctrineTypeMapping = array(
             // Vertica has only 64-bit integer, but we will treat al ass integer except bigint
             'bigint'            => 'integer',
             'integer'           => 'integer',
@@ -422,6 +422,6 @@ class VerticaPlatform extends PostgreSqlPlatform
             'varbinary'         => 'blob',
             'bytea'             => 'blob',
             'raw'               => 'blob'
-        ];
+        );
     }
 }
