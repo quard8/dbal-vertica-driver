@@ -64,7 +64,7 @@ class VerticaSchemaManager extends PostgreSqlSchemaManager
     protected function _getPortableTableForeignKeysList($tableForeignKeys)
     {
         // Multi-column FK are presented as several rows with same constraint_id
-        $keys = [];
+        $keys = array();
         foreach ($tableForeignKeys as $keyRow) {
             if (!isset($keys[$keyRow['constraint_id']])) {
                 $keys[$keyRow['constraint_id']] = [
@@ -154,7 +154,7 @@ class VerticaSchemaManager extends PostgreSqlSchemaManager
             $tableColumn['column_default'] = $tableColumn['column_default'] === 'true' ? true : false;
         }
 
-        $options = [
+        $options = array(
             'length'        => $tableColumn['character_maximum_length'],
             'notnull'       => !$tableColumn['is_nullable'],
             'default'       => $tableColumn['column_default'],
@@ -165,7 +165,7 @@ class VerticaSchemaManager extends PostgreSqlSchemaManager
             'unsigned'      => false,
             'autoincrement' => (bool) $tableColumn['is_identity'],
             'comment'       => $tableColumn['comment'],
-        ];
+        );
 
 
 
@@ -185,7 +185,7 @@ class VerticaSchemaManager extends PostgreSqlSchemaManager
      */
     protected function _getPortableTableIndexesList($tableIndexRows, $tableName=null)
     {
-        $result = [];
+        $result = array();
         foreach($tableIndexRows as $tableIndex) {
             $indexName = $keyName = $tableIndex['constraint_name'];
             if ($tableIndex['constraint_type'] == 'p') {
@@ -194,12 +194,12 @@ class VerticaSchemaManager extends PostgreSqlSchemaManager
             $keyName = strtolower($keyName);
 
             if (!isset($result[$keyName])) {
-                $result[$keyName] = [
+                $result[$keyName] = array(
                     'name' => $indexName,
                     'columns' => [$tableIndex['column_name']],
                     'unique' => true, // we have only primary and unique constraints,
                     'primary' => $tableIndex['constraint_type'] == 'p'
-                ];
+                );
             } else {
                 $result[$keyName]['columns'][] = $tableIndex['column_name'];
             }
@@ -207,7 +207,7 @@ class VerticaSchemaManager extends PostgreSqlSchemaManager
 
         $eventManager = $this->_platform->getEventManager();
 
-        $indexes = [];
+        $indexes = array();
         foreach($result as $indexKey => $data) {
             $index = null;
             $defaultPrevented = false;
